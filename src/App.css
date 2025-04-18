@@ -6,7 +6,9 @@
   background-color: #000;
   --color-text: #fff;
 }
-
+* {
+  color: var(--color-text);
+}
 .Background {
   position: fixed;
   background: radial-gradient(

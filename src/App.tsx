@@ -12,9 +12,7 @@ import { Navbar } from './Navbar.jsx';
 export function App() {
   const [data, setData] = useState<string | undefined>();
 
-  useEffect(() => {
-    console.log('Hello, ReactLynx');
-  }, []);
+  useEffect(() => {}, []);
 
   // const onTap = useCallback(() => {
   //   'background-only';
@@ -28,7 +26,9 @@ export function App() {
   const scrol: ListItemSnapAlignment = { factor: 0, offset: 0 };
 
   const [storedValue, setStoredValue] = useState<string>('asdasd');
-
+  useEffect(() => {
+    getStorage();
+  }, []);
   const setStorage = () => {
     NativeModules.NativeLocalStorageModule.setStorageItem(
       'testKey',
@@ -40,7 +40,7 @@ export function App() {
   const getStorage = () => {
     const value =
       NativeModules.NativeLocalStorageModule.getStorageItem('testKey');
-    setStoredValue(value ?? '');
+    setData(value ?? '');
   };
   return (
     <page>
@@ -55,14 +55,24 @@ export function App() {
             <view className="h-[80vh] relative">
               <image src={image1} className="block w-full h-full" />
               <view class="absolute bottom-0 left-0 border border-white w-full">
-                <view className="bg-[#68656594] py-20">
+                <view className="py-20 bg-[#16161650]">
                   <text className="text-black">{data}</text>
                   <input
                     type="text"
                     placeholder="text"
-                    onChange={(e) => setData(e.target.value)}
-                    className="text-xl text-[#fff] h-52 w-full"
+                    bindinput={(e) => setData(e.detail.value)} // intentional error 😊
+                    className="text-xl bg-[#68656594]  text-[#fff] h-10 w-full border border-black"
                   />
+                  <text
+                    className="bg-orange w-max rounded-xl my-2 mx-1 text-black"
+                    bindtap={() => setStorage()} //setStorage (neet to add Native Platform)
+                  ></text>
+                  <text
+                    className="bg-blue w-max rounded-xl my-2 mx-1 text-black"
+                    bindtap={() => {
+                      getStorage();
+                    }} //getStorage (neet to add Native Platform)
+                  ></text>
                 </view>
               </view>
             </view>
@@ -71,7 +81,7 @@ export function App() {
             <view className="h-[80vh]">
               <image src={image2} className="block w-full h-full" />
             </view>
-            <text className="text-white">sdfsdf</text>
+            <text className="text-white">ssss</text>
           </list-item>
           <list-item item-key={'2'} key={'2'} className="border border-white">
             <view className="h-[80vh]">
